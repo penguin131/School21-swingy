@@ -2,8 +2,10 @@ package swingy.model;
 
 public class Hero extends GameCharacter {
 	private int currentLvl;
-	public void downloadOrSetHero() {
+	private boolean isNew;
+	public void init() {
 		//todo download from database
+		isNew = true;
 	}
 
 	public Hero() {
@@ -16,5 +18,9 @@ public class Hero extends GameCharacter {
 
 	public void increaseLvl() {
 		currentLvl++;
+	}
+
+	public boolean isNew() {
+		return isNew;
 	}
 }

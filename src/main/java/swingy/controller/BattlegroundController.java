@@ -1,6 +1,5 @@
 package swingy.controller;
 
-import swingy.Game;
 import swingy.helper.Config;
 import swingy.helper.GameMode;
 import swingy.helper.GameResult;
@@ -8,17 +7,19 @@ import swingy.model.Coordinate;
 import swingy.model.GameCharacter;
 import swingy.model.Hero;
 import swingy.model.Villain;
-import swingy.view.console.ConsolePage;
+import swingy.view.View;
+import swingy.view.console.Button;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Battleground {
+public class BattlegroundController {
 
 	private Map<Coordinate, GameCharacter> characters;
-	private ConsolePage view;
-	private static final int VILLAIN_AMOUNT = Integer.parseInt(Config.getConfig().getProperty("villain.amount"));
+	private View view;
+	private int mapSize;
+	private static int VILLAIN_AMOUNT;
 
 	/**
 	 * Генерация карты, в зависимости от уровня игрока
@@ -26,7 +27,7 @@ public class Battleground {
 	public void generateMap(Hero hero) {
 		characters = null;
 		characters = new HashMap<>();
-		int mapSize = (hero.getCurrentLvl() - 1) * 5 + 9;
+		mapSize = (hero.getCurrentLvl() - 1) * 5 + 9;
 		characters.put(new Coordinate(mapSize / 2, mapSize / 2), hero);
 		for (int i = 0; i < VILLAIN_AMOUNT; i++) {
 			characters.put(generateNewCoordinate(mapSize), new Villain());
@@ -41,22 +42,23 @@ public class Battleground {
 	/**
 	 * Цикл игры
 	 */
-	public GameResult playGame() throws IOException, InterruptedException {
+	public GameResult playGame() throws IOException {
 		if (Config.getMode().equals(GameMode.CONSOLE)) {
+			view.printMap(characters, mapSize);
 			while (true) {
 				char ch = (char) System.in.read();
-				System.out.println("\r" + (int)ch);
-
-				if (ch == 27) {
-					Game.closeConsole();
+				if (ch == Button.ESC.getCode()) view.destroy();
+				if (Button.isStep(ch)) {
+					//todo логику движения, сражения или перехода на некст лвл. Доп окошки могут вылезти внутри этого блока, для них отдельный цикл?
 				}
+				view.printMap(characters, mapSize);
 			}
-
 		}
 		return GameResult.LOSE;
 	}
 
-	public Battleground(ConsolePage view) {
+	public BattlegroundController(View view) {
 		this.view = view;
+		VILLAIN_AMOUNT = Integer.parseInt(Config.getConfig().getProperty("villain.amount"));
 	}
 }
