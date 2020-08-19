@@ -7,8 +7,8 @@ import swingy.model.Coordinate;
 import swingy.model.GameCharacter;
 import swingy.model.Hero;
 import swingy.model.Villain;
-import swingy.view.View;
-import swingy.view.console.Button;
+import swingy.view.BattleView;
+import swingy.view.utils.Button;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ import java.util.Map;
 public class BattlegroundController {
 
 	private Map<Coordinate, GameCharacter> characters;
-	private View view;
+	private BattleView battleView;
 	private int mapSize;
 	private static int VILLAIN_AMOUNT;
 
@@ -42,23 +42,28 @@ public class BattlegroundController {
 	/**
 	 * Цикл игры
 	 */
-	public GameResult playGame() throws IOException {
+	public GameResult playGame() {
 		if (Config.getMode().equals(GameMode.CONSOLE)) {
-			view.printMap(characters, mapSize);
+			battleView.printMap(characters, mapSize);
 			while (true) {
-				char ch = (char) System.in.read();
-				if (ch == Button.ESC.getCode()) view.destroy();
-				if (Button.isStep(ch)) {
-					//todo логику движения, сражения или перехода на некст лвл. Доп окошки могут вылезти внутри этого блока, для них отдельный цикл?
+				try {
+					char ch = (char) System.in.read();
+					if (ch == Button.ESC.getCode()) battleView.destroy();
+					if (Button.isStep(ch)) {
+						//todo логику движения, сражения или перехода на некст лвл. Доп окошки могут вылезти внутри этого блока, для них отдельный цикл?
+					}
+					battleView.printMap(characters, mapSize);
+				} catch (IOException ex) {
+					ex.printStackTrace();
+					System.exit(1);
 				}
-				view.printMap(characters, mapSize);
 			}
 		}
 		return GameResult.LOSE;
 	}
 
-	public BattlegroundController(View view) {
-		this.view = view;
+	public BattlegroundController(BattleView battleView) {
+		this.battleView = battleView;
 		VILLAIN_AMOUNT = Integer.parseInt(Config.getConfig().getProperty("villain.amount"));
 	}
 }

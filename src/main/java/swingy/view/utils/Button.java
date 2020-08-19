@@ -1,4 +1,4 @@
-package swingy.view.console;
+package swingy.view.utils;
 
 public enum Button {
 	UP(119),

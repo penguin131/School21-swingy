@@ -11,3 +11,6 @@
 How to start:
 mvn clean package
 java -classpath target/swingy-1.0-SNAPSHOT.jar swingy.Game
+
+
+//todo - структуру персонажа
