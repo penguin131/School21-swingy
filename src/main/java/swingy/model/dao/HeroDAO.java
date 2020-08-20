@@ -16,20 +16,11 @@ public class HeroDAO implements Dao<Hero> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Hero> getAll() {
-
 		Query q = DAOFactory.getEntityManager().createQuery("SELECT c FROM Character c");
 		List<Character> characters = (List<Character>) q.getResultList();
 		List<Hero> heroes = new ArrayList<>();
 		for (Character character : characters) {
-			Hero hero = new Hero();
-			Hero.HeroBuilder builder = new Hero.HeroBuilder(hero);
-			builder.setName(character.getName());
-			builder.setLevel(character.getLevel());
-			builder.setAttack(character.getAttack());
-			builder.setDefence(character.getDefence());
-			builder.setHitPoint(character.getHitPoint());
-			builder.setHeroClass(HeroClass.getClassForId(character.getCharacterClass().getCharacterClassId()));
-			heroes.add(hero);
+			heroes.add(convertCharacterToHero(character));
 		}
 		return heroes;
 	}
@@ -68,8 +59,29 @@ public class HeroDAO implements Dao<Hero> {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public void delete(Hero hero) {
+	public Hero getForName(String name) {
+		Query q = DAOFactory.getEntityManager().
+				createQuery("SELECT c FROM Character c where name=:name").setParameter("name", name);
+		List<Character> resultList = (List<Character>) q.getResultList();
+		if (resultList.size() == 0) {
+			return null;
+		} else {
+			Character character = resultList.get(0);
+			return convertCharacterToHero(character);
+		}
+	}
 
+	private Hero convertCharacterToHero(Character character) {
+		Hero hero = new Hero();
+		Hero.HeroBuilder builder = new Hero.HeroBuilder(hero);
+		builder.setName(character.getName());
+		builder.setLevel(character.getLevel());
+		builder.setAttack(character.getAttack());
+		builder.setDefence(character.getDefence());
+		builder.setHitPoint(character.getHitPoint());
+		builder.setHeroClass(HeroClass.getClassForId(character.getCharacterClass().getCharacterClassId()));
+		return hero;
 	}
 }

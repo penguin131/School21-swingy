@@ -108,7 +108,9 @@ public class SelectHeroController {
 			while (true) {
 				String parseError = null;
 				System.out.println("Please write hero Name!:");
-				line = buffer.readLine();
+				while (DAOFactory.getHeroDAO().getForName(line = buffer.readLine()) != null) {
+					System.out.println("This name already exist!");
+				}
 				builder.setName(line);
 				System.out.println("Please write hero class!(1(MAN) or 2(WOMAN)):");
 				line = buffer.readLine();
