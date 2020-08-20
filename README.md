@@ -10,7 +10,14 @@
 
 How to start:
 mvn clean package
-java -classpath target/swingy-1.0-SNAPSHOT.jar swingy.Game
+mvn exec:java
+//java -classpath target/swingy-1.0-SNAPSHOT.jar swingy.Game
 
 
 //todo - структуру персонажа
+
+
+How to install H2 database:
+1 - download from official site(1.4.200 version)
+2 - Open a console window, navigate to the directory h2/bin, and type:
+    java -jar h2*.jar

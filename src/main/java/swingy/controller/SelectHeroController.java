@@ -1,5 +1,6 @@
 package swingy.controller;
 
+import swingy.Exceptions.ParseException;
 import swingy.model.Hero;
 import swingy.model.HeroClass;
 
@@ -26,7 +27,7 @@ public class SelectHeroController {
 			System.exit(1);
 		}
 		Hero hero = null;
-		heroes = Hero.download();
+		heroes = Hero.downloadAll();
 		if (heroes != null && heroes.size() > 0) {
 			System.out.println("You can choose old character. Do it?(y/n)");
 			try {
@@ -46,7 +47,7 @@ public class SelectHeroController {
 				System.exit(1);
 			}
 		} else
-			createHero();
+			hero = createHero();
 		return hero;
 	}
 
@@ -70,17 +71,20 @@ public class SelectHeroController {
 		Hero.HeroBuilder builder = new Hero.HeroBuilder(hero);
 		try {
 			Set<ConstraintViolation<Hero>> errors;
-			while (true){
+			clearConsole();
+			while (true) {
 				String parseError = null;
-				clearConsole();
 				System.out.println("Please write hero Name!:");
 				line = buffer.readLine();
 				builder.setName(line);
-				System.out.println("Please write hero class!(1 or 2):");
+				System.out.println("Please write hero class!(0 or 1):");
 				line = buffer.readLine();
 				try {
-					builder.setHeroClass(HeroClass.values()[Integer.parseInt(line)]);
-				} catch (NumberFormatException ex) {
+					int i = Integer.parseInt(line);
+					if (i < 0 || i >= HeroClass.values().length)
+						throw new ParseException("Non-existent class");
+					builder.setHeroClass(HeroClass.values()[i]);
+				} catch (NumberFormatException | ParseException ex) {
 					parseError = ex.getMessage();
 				}
 				errors = builder.validate();
@@ -98,6 +102,7 @@ public class SelectHeroController {
 			ex.printStackTrace();
 			System.exit(1);
 		}
-		return null;
+		hero.save();
+		return hero;
 	}
 }
