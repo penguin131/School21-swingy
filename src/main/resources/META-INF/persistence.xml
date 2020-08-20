@@ -4,7 +4,8 @@
              version="2.0">
     <persistence-unit name="UserCharacter" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>swingy.model.entity.UserCharacter</class>
+        <class>swingy.model.entity.Character</class>
+        <class>swingy.model.entity.CharacterClass</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
             <property name="hibernate.connection.url" value="jdbc:h2:tcp://localhost/~/test"/>

@@ -21,3 +21,6 @@ How to install H2 database:
 1 - download from official site(1.4.200 version)
 2 - Open a console window, navigate to the directory h2/bin, and type:
     java -jar h2*.jar
+
+
+stty sane </dev/tty для возвращения терминала в нормальный режим

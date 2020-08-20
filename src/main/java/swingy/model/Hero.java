@@ -1,10 +1,5 @@
 package swingy.model;
 
-import swingy.model.entity.UserCharacter;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -12,7 +7,6 @@ import javax.validation.ValidatorFactory;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,36 +27,6 @@ public class Hero extends GameCharacter {
 		super(attack, defence, hitPoint, artifacts);
 		this.heroClass = heroClass;
 		this.currentLvl = currentLvl;
-	}
-
-	public void save() {
-		EntityManagerFactory emf =
-				Persistence.createEntityManagerFactory("UserCharacter");
-		EntityManager em = emf.createEntityManager();
-		UserCharacter character = new UserCharacter();
-		character.setName(this.getName());
-		character.setCharacter_class(this.heroClass.getId());
-		character.setAttack(this.getAttack());
-		character.setDefence(this.getDefence());
-		character.setHitpoint(this.getHitPoint());
-		em.getTransaction().begin();
-		em.persist(character);
-		em.getTransaction().commit();
-	}
-
-	@SuppressWarnings("unchecked")
-	public static List<Hero> downloadAll() {
-		return null;
-//		EntityManagerFactory emf =
-//				Persistence.createEntityManagerFactory("testPersistenceUnit");
-//		EntityManager em = emf.createEntityManager();
-//		em.getTransaction().begin();
-//		List<Hero> result = new ArrayList<>();
-//		Query query = em.createQuery("Select c from UserCharacter c");
-//		for (UserCharacter hero : (List<UserCharacter>)query.getResultList()) {
-//			result.add(new Hero());
-//		}
-//		return result;
 	}
 
 	public int getCurrentLvl() {
@@ -130,6 +94,18 @@ public class Hero extends GameCharacter {
 
 		public void setLevel(int currentLvl) {
 			character.currentLvl = currentLvl;
+		}
+
+		public void setAttack(int attack) {
+			character.attack = attack;
+		}
+
+		public void setDefence(int defence) {
+			character.defence = defence;
+		}
+
+		public void setHitPoint(int hitPoint) {
+			character.hitPoint = hitPoint;
 		}
 
 		public HeroBuilder(Hero character) {

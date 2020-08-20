@@ -3,6 +3,7 @@ package swingy.controller;
 import swingy.Exceptions.ParseException;
 import swingy.model.Hero;
 import swingy.model.HeroClass;
+import swingy.model.dao.DAOFactory;
 
 import javax.validation.ConstraintViolation;
 import java.io.BufferedReader;
@@ -27,7 +28,7 @@ public class SelectHeroController {
 			System.exit(1);
 		}
 		Hero hero = null;
-		heroes = Hero.downloadAll();
+		heroes = DAOFactory.getHeroDAO().getAll();
 		if (heroes != null && heroes.size() > 0) {
 			System.out.println("You can choose old character. Do it?(y/n)");
 			try {
@@ -77,13 +78,13 @@ public class SelectHeroController {
 				System.out.println("Please write hero Name!:");
 				line = buffer.readLine();
 				builder.setName(line);
-				System.out.println("Please write hero class!(0 or 1):");
+				System.out.println("Please write hero class!(1(MAN) or 2(WOMAN)):");
 				line = buffer.readLine();
 				try {
-					int i = Integer.parseInt(line);
-					if (i < 0 || i >= HeroClass.values().length)
+					int code = Integer.parseInt(line);
+					if (!HeroClass.containsCode(code))
 						throw new ParseException("Non-existent class");
-					builder.setHeroClass(HeroClass.values()[i]);
+					builder.setHeroClass(HeroClass.values()[code - 1]);
 				} catch (NumberFormatException | ParseException ex) {
 					parseError = ex.getMessage();
 				}
@@ -102,7 +103,7 @@ public class SelectHeroController {
 			ex.printStackTrace();
 			System.exit(1);
 		}
-		hero.save();
+		DAOFactory.getHeroDAO().save(hero);
 		return hero;
 	}
 }
