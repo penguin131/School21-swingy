@@ -35,4 +35,12 @@ public enum HeroClass {
 		}
 		return null;
 	}
+
+	public static HeroClass getClassForId(int id) {
+		for (HeroClass heroClass1 : HeroClass.values()) {
+			if (heroClass1.getId() == id)
+				return heroClass1;
+		}
+		return null;
+	}
 }

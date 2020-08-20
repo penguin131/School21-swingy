@@ -33,6 +33,7 @@ public class HeroDAO implements Dao<Hero> {
 			builder.setAttack(character.getAttack());
 			builder.setDefence(character.getDefence());
 			builder.setHitPoint(character.getHitPoint());
+			builder.setHeroClass(HeroClass.getClassForId(character.getCharacterClass().getCharacterClassId()));
 			heroes.add(hero);
 		}
 		return heroes;

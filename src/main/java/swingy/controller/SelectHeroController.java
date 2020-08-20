@@ -14,9 +14,8 @@ import java.util.Set;
 
 public class SelectHeroController {
 	private List<Hero> heroes;
-	BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
+	private BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
 
-	//todo первоочередное
 	public Hero selectHero() {
 		String line;
 		clearConsole();
@@ -62,6 +61,39 @@ public class SelectHeroController {
 	}
 
 	private Hero selectHeroFromBase() {
+		//print old heroes
+		clearConsole();
+		for (Hero hero : heroes) {
+			System.out.println(String.format(
+					"=====================================\n" +
+					"==================HERO:==============\n" +
+					"===== NAME:%20s =====\n" +
+					"===== LEVEL:%19d =====\n" +
+					"===== CLASS:%19s =====\n" +
+					"=====================================",
+					hero.getName(),
+					hero.getCurrentLvl(),
+					hero.getHeroClass().getName()));
+		}
+		System.out.println("Please write hero name to select it:");
+		String line;
+		Hero result = null;
+		try {
+			while ((result = findHeroForName(line = buffer.readLine())) == null) {
+				System.out.println(String.format("Name %s does not exists! Please write correct name.", line));
+			}
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			System.exit(1);
+		}
+		return result;
+	}
+
+	private Hero findHeroForName(String heroName) {
+		for (Hero hero : heroes) {
+			if (hero.getName().equals(heroName))
+				return hero;
+		}
 		return null;
 	}
 
