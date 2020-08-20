@@ -8,13 +8,12 @@ import swingy.model.dao.DAOFactory;
 import javax.validation.ConstraintViolation;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Set;
 
 public class SelectHeroController {
 	private List<Hero> heroes;
-	private BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
+	private BufferedReader buffer;
 
 	public Hero selectHero() {
 		String line;
@@ -28,6 +27,7 @@ public class SelectHeroController {
 		}
 		Hero hero = null;
 		heroes = DAOFactory.getHeroDAO().getAll();
+		clearConsole();
 		if (heroes != null && heroes.size() > 0) {
 			System.out.println("You can choose old character. Do it?(y/n)");
 			try {
@@ -48,11 +48,13 @@ public class SelectHeroController {
 			}
 		} else
 			hero = createHero();
+		clearConsole();
 		return hero;
 	}
 
-	public SelectHeroController() {
+	public SelectHeroController(BufferedReader buffer) {
 		this.heroes = null;
+		this.buffer = buffer;
 	}
 
 	private void clearConsole() {
@@ -61,7 +63,6 @@ public class SelectHeroController {
 	}
 
 	private Hero selectHeroFromBase() {
-		//print old heroes
 		clearConsole();
 		for (Hero hero : heroes) {
 			System.out.println(String.format(
@@ -98,7 +99,6 @@ public class SelectHeroController {
 	}
 
 	private Hero createHero() {
-		clearConsole();
 		String line;
 		Hero hero = new Hero();
 		Hero.HeroBuilder builder = new Hero.HeroBuilder(hero);

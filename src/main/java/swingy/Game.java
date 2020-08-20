@@ -13,17 +13,15 @@ import swingy.view.console.SelectHeroConsolePage;
 import swingy.view.swing.BattleSwingPage;
 import swingy.view.swing.SelectHeroSwingPage;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class Game {
 	private static final int MAX_LVL = Integer.parseInt(Config.getConfig().getProperty("maxLvl"));
-	private static final String USAGE = "Usage: <mode>\n		mode: console, swing";
+	private static BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
 	public static void main(String[] args) {
-//		if (args.length != 1 || !"console".equals(args[0]) && !"swing".equals(args[0])) {
-//			System.out.println(USAGE);
-//			System.exit(1);
-//		} else {
-//			Config.setMode("console".equals(args[0]) ? GameMode.CONSOLE : GameMode.SWING);
-//		}
 		Config.setMode(GameMode.CONSOLE);
 		SelectHeroView selectHeroView;
 		BattleView battleView;
@@ -36,8 +34,8 @@ public class Game {
 			battleView = new BattleSwingPage();
 		}
 
-		Hero hero = new SelectHeroController().selectHero();
-
+		Hero hero = new SelectHeroController(bufferedReader).selectHero();//GOTOVO VRODE
+		selectMode();
 		BattlegroundController battleground = new BattlegroundController(battleView);
 		if (Config.getMode().equals(GameMode.CONSOLE))
 			initConsole();
@@ -53,6 +51,26 @@ public class Game {
 			String[] cmd = {"/bin/sh", "-c", "stty raw </dev/tty"};
 			Runtime.getRuntime().exec(cmd).waitFor();
 		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.exit(1);
+		}
+	}
+
+	private static void selectMode() {
+		try {
+			String line;
+			while (true) {
+				System.out.println("Please select game mode(swing or console):");
+				line = bufferedReader.readLine();
+				if ("swing".equals(line)) {
+					Config.setMode(GameMode.SWING);
+					break;
+				} else if ("console".equals(line)) {
+					Config.setMode(GameMode.CONSOLE);
+					break;
+				}
+			}
+		} catch (IOException ex) {
 			ex.printStackTrace();
 			System.exit(1);
 		}

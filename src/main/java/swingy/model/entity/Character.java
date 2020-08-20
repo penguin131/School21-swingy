@@ -83,6 +83,14 @@ public class Character {
 		this.artifacts = artifacts;
 	}
 
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
 	@Override
 	public String toString () {
 		return "UserCharacter:{" +
@@ -94,13 +102,5 @@ public class Character {
 				", hitPoint: " + hitPoint +
 				", level: " + level +
 				"}";
-	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
 	}
 }
