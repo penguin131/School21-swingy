@@ -102,7 +102,6 @@ public class SelectHeroController {
 			}
 		}
 		view.clearConsole();
-		System.out.println("OK HERO");//remove
 		DAOFactory.getHeroDAO().save(hero);
 		return hero;
 	}

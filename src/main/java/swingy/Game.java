@@ -6,12 +6,14 @@ import swingy.helper.Config;
 import swingy.helper.GameMode;
 import swingy.helper.GameResult;
 import swingy.model.Hero;
-import swingy.view.BattleView;
+import swingy.model.HeroClass;
 import swingy.view.SelectHeroView;
-import swingy.view.console.BattleConsolePage;
+import swingy.view.console.ConsoleBattlePage;
 import swingy.view.console.SelectHeroConsolePage;
 import swingy.view.swing.SwingBattlePage;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,30 +25,47 @@ public class Game {
 	public static void main(String[] args) {
 		Config.setMode(GameMode.CONSOLE);
 		SelectHeroView selectHeroView;
-		BattleView battleView;
 		Hero hero;
 
 		selectHeroView = new SelectHeroConsolePage();
-		if (Config.getMode().equals(GameMode.CONSOLE)) {
-			battleView = new BattleConsolePage();
-		} else {
-			battleView = new SwingBattlePage();
-		}
 		try {
-			hero = new SelectHeroController(bufferedReader, selectHeroView).selectHero();
-			selectMode(selectHeroView);
-			BattlegroundController battleground = new BattlegroundController(battleView);
+//			hero = new SelectHeroController(bufferedReader, selectHeroView).selectHero();
+			hero = new Hero(HeroClass.MAN);
+//			selectMode(selectHeroView);
+			Config.setMode(GameMode.SWING);
+			BattlegroundController battleground = new BattlegroundController();
 			if (Config.getMode().equals(GameMode.CONSOLE))
 				initConsole();
 			while (hero.getCurrentLvl() <= MAX_LVL) {
 				battleground.generateMap(hero);
-				if (battleground.playGame().equals(GameResult.WIN))
+				GameResult result = battleground.playGame();
+				if (result.equals(GameResult.LVL_UP))
 					hero.increaseLvl();
+				if (result.equals(GameResult.LOSE)) {
+					System.out.println("YOU LOOSE");
+					System.exit(0);
+				}
 			}
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
 	}
+//	public static void main(String[] args) {
+//		JFrame frame = new JFrame("Demo Frame");
+//		JPanel panel = new JPanel();
+//		JLabel label = new JLabel("SUBJECT ");
+//		label.setIcon(new ImageIcon("/Users/bootcamp/Desktop/swingy/target/classes/images/hero.jpg"));
+//		JTextArea text = new JTextArea();
+//		text.setText("Add subject here...");
+//		panel.setLayout(new GridBagLayout());
+//		panel.add(label);
+//		panel.add(text);
+//		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+//		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//		frame.add(panel);
+//		frame.setSize(500, 300);
+//		frame.setVisible(true);
+//	}
 
 	private static void initConsole() {
 		try {

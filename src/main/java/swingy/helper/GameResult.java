@@ -2,5 +2,6 @@ package swingy.helper;
 
 public enum GameResult {
 	WIN,
-	LOSE
+	LOSE,
+	LVL_UP
 }
