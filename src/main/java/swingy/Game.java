@@ -10,8 +10,7 @@ import swingy.view.BattleView;
 import swingy.view.SelectHeroView;
 import swingy.view.console.BattleConsolePage;
 import swingy.view.console.SelectHeroConsolePage;
-import swingy.view.swing.BattleSwingPage;
-import swingy.view.swing.SelectHeroSwingPage;
+import swingy.view.swing.SwingBattlePage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,24 +24,27 @@ public class Game {
 		Config.setMode(GameMode.CONSOLE);
 		SelectHeroView selectHeroView;
 		BattleView battleView;
+		Hero hero;
 
+		selectHeroView = new SelectHeroConsolePage();
 		if (Config.getMode().equals(GameMode.CONSOLE)) {
-			selectHeroView = new SelectHeroConsolePage();
 			battleView = new BattleConsolePage();
 		} else {
-			selectHeroView = new SelectHeroSwingPage();
-			battleView = new BattleSwingPage();
+			battleView = new SwingBattlePage();
 		}
-
-		Hero hero = new SelectHeroController(bufferedReader).selectHero();//GOTOVO VRODE
-		selectMode();
-		BattlegroundController battleground = new BattlegroundController(battleView);
-		if (Config.getMode().equals(GameMode.CONSOLE))
-			initConsole();
-		while (hero.getCurrentLvl() <= MAX_LVL) {
-			battleground.generateMap(hero);
-			if (battleground.playGame().equals(GameResult.WIN))
-				hero.increaseLvl();
+		try {
+			hero = new SelectHeroController(bufferedReader, selectHeroView).selectHero();
+			selectMode(selectHeroView);
+			BattlegroundController battleground = new BattlegroundController(battleView);
+			if (Config.getMode().equals(GameMode.CONSOLE))
+				initConsole();
+			while (hero.getCurrentLvl() <= MAX_LVL) {
+				battleground.generateMap(hero);
+				if (battleground.playGame().equals(GameResult.WIN))
+					hero.increaseLvl();
+			}
+		} catch (IOException ex) {
+			ex.printStackTrace();
 		}
 	}
 
@@ -56,11 +58,11 @@ public class Game {
 		}
 	}
 
-	private static void selectMode() {
+	private static void selectMode(SelectHeroView view) {
 		try {
 			String line;
 			while (true) {
-				System.out.println("Please select game mode(swing or console):");
+				view.question("Please select game mode(swing or console):");
 				line = bufferedReader.readLine();
 				if ("swing".equals(line)) {
 					Config.setMode(GameMode.SWING);

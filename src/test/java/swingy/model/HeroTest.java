@@ -5,7 +5,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import javax.validation.ConstraintViolation;
-import java.util.HashMap;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,7 +14,7 @@ public class HeroTest {
 
 	@Test
 	public void artifactsTest() {
-		Hero character = new Hero(null, 0, 0, 10, new HashMap<>(), 1);
+		Hero character = new Hero();
 		Hero.HeroBuilder builder = new Hero.HeroBuilder(character);
 		assertEquals(character.getArtifacts().size(), 0);
 		builder.takeArtifact(new Artifact(ArtifactType.ARMOR, 5));
@@ -42,7 +41,7 @@ public class HeroTest {
 
 	@Test
 	public void validationTest() {
-		Hero character = new Hero(null, 0, 0, 10, new HashMap<>(), 1);
+		Hero character = new Hero();
 		Hero.HeroBuilder builder = new Hero.HeroBuilder(character);
 		//validation
 		builder.setName(null);

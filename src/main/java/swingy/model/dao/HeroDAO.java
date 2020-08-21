@@ -74,14 +74,13 @@ public class HeroDAO implements Dao<Hero> {
 	}
 
 	private Hero convertCharacterToHero(Character character) {
-		Hero hero = new Hero();
+		Hero hero = new Hero(HeroClass.getClassForId(character.getCharacterClass().getCharacterClassId()));
 		Hero.HeroBuilder builder = new Hero.HeroBuilder(hero);
 		builder.setName(character.getName());
 		builder.setLevel(character.getLevel());
 		builder.setAttack(character.getAttack());
 		builder.setDefence(character.getDefence());
 		builder.setHitPoint(character.getHitPoint());
-		builder.setHeroClass(HeroClass.getClassForId(character.getCharacterClass().getCharacterClassId()));
 		return hero;
 	}
 }

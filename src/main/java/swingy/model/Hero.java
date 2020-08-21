@@ -7,7 +7,7 @@ import javax.validation.ValidatorFactory;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Map;
+import java.util.HashMap;
 import java.util.Set;
 
 public class Hero extends GameCharacter {
@@ -19,14 +19,23 @@ public class Hero extends GameCharacter {
 	@NotNull(message = "Hero class can not be null")
 	private HeroClass heroClass;
 
-	public Hero() {
+	public Hero(HeroClass heroClass) {
+		this.heroClass = heroClass;
 		this.currentLvl = 1;
+		this.hitPoint = 10;
+		this.attack = 1;
+		this.defence = 1;
+		this.hitPoint = 1;
+		this.artifacts = new HashMap<>();
 	}
 
-	public Hero(HeroClass heroClass, int attack, int defence, int hitPoint, Map<ArtifactType, Artifact> artifacts, int currentLvl) {
-		super(attack, defence, hitPoint, artifacts);
-		this.heroClass = heroClass;
-		this.currentLvl = currentLvl;
+	public Hero() {
+		this.currentLvl = 1;
+		this.hitPoint = 10;
+		this.attack = 0;
+		this.defence = 0;
+		this.artifacts = new HashMap<>();
+		this.heroClass = null;
 	}
 
 	public int getCurrentLvl() {
