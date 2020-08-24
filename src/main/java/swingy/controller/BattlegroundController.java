@@ -70,7 +70,7 @@ public class BattlegroundController {
 		} else {
 			view = new ConsoleBattlePage();
 		}
-		while (true) {
+		while (true) {//1 итерация цикла - 1 шажок героя
 			view.printMap();
 
 			break;

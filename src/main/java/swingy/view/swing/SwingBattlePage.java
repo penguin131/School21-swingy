@@ -7,6 +7,7 @@ import swingy.model.Villain;
 import swingy.view.BattleView;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Map;
 
 public class SwingBattlePage extends JFrame implements BattleView {
@@ -16,7 +17,7 @@ public class SwingBattlePage extends JFrame implements BattleView {
 	private ImageIcon hero;
 	private ImageIcon villain;
 	private ImageIcon zero;
-	private JLabel map[][];
+	private JLabel[][] map;
 
 	public SwingBattlePage(Map<Coordinate, GameCharacter> characters, int mapSize) {
 		super("Battleground");
@@ -24,9 +25,9 @@ public class SwingBattlePage extends JFrame implements BattleView {
 		this.mapSize = mapSize;
 		this.setBounds(100, 100, 50 * mapSize + 6, 50 * mapSize + 26);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		hero = new ImageIcon("/Users/bootcamp/Desktop/swingy/target/classes/images/hero.jpg");
-		villain = new ImageIcon("/Users/bootcamp/Desktop/swingy/target/classes/images/villain.jpg");
-		zero = new ImageIcon("/Users/bootcamp/Desktop/swingy/target/classes/images/zero.png");
+		hero = resizeImage(new ImageIcon("/Users/bootcamp/Desktop/swingy/target/classes/images/hero.png"));
+		villain = resizeImage(new ImageIcon("/Users/bootcamp/Desktop/swingy/target/classes/images/villain.png"));
+		zero = resizeImage(new ImageIcon("/Users/bootcamp/Desktop/swingy/target/classes/images/zero.png"));
 		map = new JLabel[mapSize][];
 		this.setLayout(null);
 		for (int i = 0; i < mapSize; i++) {
@@ -35,10 +36,8 @@ public class SwingBattlePage extends JFrame implements BattleView {
 				map[i][j] = new JLabel();
 				map[i][j].setLocation(i * 50 + 3, j * 50 + 3);
 				map[i][j].setSize(45, 45);
-//				map[i][j].setXY(i * 50, j * 50);
 			}
 		}
-
 	}
 
 	@Override
@@ -70,5 +69,11 @@ public class SwingBattlePage extends JFrame implements BattleView {
 	public void destroy() {
 		setVisible(false);
 		dispose();
+	}
+
+	private ImageIcon resizeImage(ImageIcon image) {
+		Image image1 = image.getImage();
+		Image newImg = image1.getScaledInstance(45, 45,  java.awt.Image.SCALE_SMOOTH);
+		return new ImageIcon(newImg);
 	}
 }

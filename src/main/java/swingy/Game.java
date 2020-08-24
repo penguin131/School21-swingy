@@ -36,7 +36,7 @@ public class Game {
 			BattlegroundController battleground = new BattlegroundController();
 			if (Config.getMode().equals(GameMode.CONSOLE))
 				initConsole();
-			while (hero.getCurrentLvl() <= MAX_LVL) {
+			while (hero.getCurrentLvl() <= MAX_LVL) {//после каждого цикла открывается новая карта
 				battleground.generateMap(hero);
 				GameResult result = battleground.playGame();
 				if (result.equals(GameResult.LVL_UP))
@@ -50,19 +50,16 @@ public class Game {
 			ex.printStackTrace();
 		}
 	}
+
+	//пример с картинкой
 //	public static void main(String[] args) {
 //		JFrame frame = new JFrame("Demo Frame");
-//		JPanel panel = new JPanel();
-//		JLabel label = new JLabel("SUBJECT ");
-//		label.setIcon(new ImageIcon("/Users/bootcamp/Desktop/swingy/target/classes/images/hero.jpg"));
-//		JTextArea text = new JTextArea();
-//		text.setText("Add subject here...");
-//		panel.setLayout(new GridBagLayout());
-//		panel.add(label);
-//		panel.add(text);
-//		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+//		JLabel label = new JLabel();
+//		label.setLocation(150, 150);
+//		label.setSize(100, 100);
+//		label.setIcon(resizeImage(new ImageIcon("/Users/bootcamp/Desktop/swingy/target/classes/images/hero.jpg")));
 //		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//		frame.add(panel);
+//		frame.add(label);
 //		frame.setSize(500, 300);
 //		frame.setVisible(true);
 //	}
@@ -95,5 +92,11 @@ public class Game {
 			ex.printStackTrace();
 			System.exit(1);
 		}
+	}
+
+	private static ImageIcon resizeImage(ImageIcon image) {
+		Image image1 = image.getImage(); // transform it
+		Image newImg = image1.getScaledInstance(45, 45,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+		return new ImageIcon(newImg);  // transform it back
 	}
 }

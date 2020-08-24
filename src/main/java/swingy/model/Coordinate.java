@@ -35,4 +35,12 @@ public class Coordinate {
 		Coordinate other = (Coordinate) obj;
 		return other.getX() == this.getX() && other.getY() == this.getY();
 	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 31 * hash + x;
+		hash = 31 * hash + y;
+		return hash;
+	}
 }
