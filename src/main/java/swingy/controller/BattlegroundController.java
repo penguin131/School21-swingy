@@ -71,7 +71,7 @@ public class BattlegroundController {
 	/**
 	 * Цикл игры
 	 */
-	public GameResult playGame() throws IOException {
+	public GameResult playGame() throws IOException, InterruptedException {
 		if (Config.getMode().equals(GameMode.SWING)) {
 			view = new SwingBattlePage(characters, mapSize, this);
 		} else {
@@ -79,8 +79,9 @@ public class BattlegroundController {
 		}
 		view.printMap();
 		while (status.equals(GameStatus.PLAY)) {
-			;
+			Thread.sleep(100);
 		}
+		view.destroy();
 		if (status.equals(GameStatus.LOOSE))
 			return GameResult.LOSE;
 		else

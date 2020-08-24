@@ -19,7 +19,6 @@ import static swingy.view.utils.Button.getButton;
 public class SwingBattlePage extends JFrame implements BattleView {
 
 	private Map<Coordinate, GameCharacter> characters;
-	private BattlegroundController controller;
 	private int mapSize;
 	private ImageIcon hero;
 	private ImageIcon villain;
@@ -28,14 +27,14 @@ public class SwingBattlePage extends JFrame implements BattleView {
 
 	public SwingBattlePage(Map<Coordinate, GameCharacter> characters, int mapSize, BattlegroundController controller) {
 		super("Battleground");
-		this.controller = controller;
 		this.characters = characters;
 		this.mapSize = mapSize;
 		this.setBounds(100, 100, 50 * mapSize + 6, 50 * mapSize + 26);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		hero = resizeImage(new ImageIcon("/Users/bootcamp/Desktop/swingy/target/classes/images/hero.png"));
-		villain = resizeImage(new ImageIcon("/Users/bootcamp/Desktop/swingy/target/classes/images/villain.png"));
-		zero = resizeImage(new ImageIcon("/Users/bootcamp/Desktop/swingy/target/classes/images/zero.png"));
+		String userDir = System.getProperty("user.dir");
+		hero = resizeImage(new ImageIcon(userDir + "/target/classes/images/hero.png"));
+		villain = resizeImage(new ImageIcon(userDir + "/target/classes/images/villain.png"));
+		zero = resizeImage(new ImageIcon(userDir + "/target/classes/images/zero.png"));
 		map = new JLabel[mapSize][];
 		this.setLayout(null);
 		for (int i = 0; i < mapSize; i++) {

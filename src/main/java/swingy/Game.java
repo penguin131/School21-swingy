@@ -46,10 +46,23 @@ public class Game {
 					System.exit(0);
 				}
 			}
-		} catch (IOException ex) {
+		} catch (IOException | InterruptedException ex) {
 			ex.printStackTrace();
 		}
 	}
+
+	//пример с картинкой
+//	public static void main(String[] args) {
+//		JFrame frame = new JFrame("Demo Frame");
+//		JLabel label = new JLabel();
+//		label.setLocation(150, 150);
+//		label.setSize(100, 100);
+//		label.setIcon(resizeImage(new ImageIcon("/Users/bootcamp/Desktop/swingy/target/classes/images/hero.jpg")));
+//		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//		frame.add(label);
+//		frame.setSize(500, 300);
+//		frame.setVisible(true);
+//	}
 
 	private static void initConsole() {
 		try {
