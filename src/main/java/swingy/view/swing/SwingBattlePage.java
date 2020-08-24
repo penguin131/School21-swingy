@@ -1,5 +1,6 @@
 package swingy.view.swing;
 
+import swingy.controller.BattlegroundController;
 import swingy.model.Coordinate;
 import swingy.model.GameCharacter;
 import swingy.model.Hero;
@@ -8,19 +9,26 @@ import swingy.view.BattleView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.Map;
+
+import static swingy.view.utils.Button.getButton;
 
 public class SwingBattlePage extends JFrame implements BattleView {
 
 	private Map<Coordinate, GameCharacter> characters;
+	private BattlegroundController controller;
 	private int mapSize;
 	private ImageIcon hero;
 	private ImageIcon villain;
 	private ImageIcon zero;
 	private JLabel[][] map;
 
-	public SwingBattlePage(Map<Coordinate, GameCharacter> characters, int mapSize) {
+	public SwingBattlePage(Map<Coordinate, GameCharacter> characters, int mapSize, BattlegroundController controller) {
 		super("Battleground");
+		this.controller = controller;
 		this.characters = characters;
 		this.mapSize = mapSize;
 		this.setBounds(100, 100, 50 * mapSize + 6, 50 * mapSize + 26);
@@ -38,11 +46,19 @@ public class SwingBattlePage extends JFrame implements BattleView {
 				map[i][j].setSize(45, 45);
 			}
 		}
+		this.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				try {
+					controller.pressButton(getButton(e.getKeyCode()));
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
 	}
 
 	@Override
 	public void printMap() {
-//		this.removeAll();
 		for (int i = 0; i < mapSize; i++) {
 			for (int j = 0; j < mapSize; j++) {
 				GameCharacter field = characters.get(new Coordinate(i, j));
@@ -57,12 +73,6 @@ public class SwingBattlePage extends JFrame implements BattleView {
 			}
 		}
 		this.setVisible(true);
-
-		try {
-			Thread.sleep(10000);
-		} catch (Exception ex) {
-
-		}
 	}
 
 	@Override

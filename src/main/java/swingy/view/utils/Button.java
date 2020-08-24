@@ -1,10 +1,10 @@
 package swingy.view.utils;
 
 public enum Button {
-	UP(119),
-	DOWN(115),
-	LEFT(97),
-	RIGHT(100),
+	UP(87),
+	DOWN(83),
+	LEFT(65),
+	RIGHT(68),
 	ESC(27),
 	YES(1),
 	NO(1);
@@ -19,12 +19,12 @@ public enum Button {
 		return code;
 	}
 
-	public static boolean containCode(int code) {
+	public static Button getButton(int code) {
 		for (Button button : Button.values()) {
 			if (code == button.getCode())
-				return true;
+				return button;
 		}
-		return false;
+		return null;
 	}
 
 	public static boolean isStep(int code) {

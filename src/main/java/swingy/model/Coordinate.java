@@ -44,3 +44,4 @@ public class Coordinate {
 		return hash;
 	}
 }
+//6793
