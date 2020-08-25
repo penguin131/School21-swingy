@@ -6,14 +6,7 @@ public class ConsolePage implements View {
 
 	@Override
 	public void destroy() {
-		try {
-			String[] cmd = new String[] {"/bin/sh", "-c", "stty sane </dev/tty"};
-			Runtime.getRuntime().exec(cmd).waitFor();
-			System.exit(0);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			System.exit(1);
-		}
+		clearConsole();
 	}
 
 	public void clearConsole() {

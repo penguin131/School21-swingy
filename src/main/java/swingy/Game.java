@@ -7,14 +7,9 @@ import swingy.helper.Config;
 import swingy.helper.GameMode;
 import swingy.helper.GameStatus;
 import swingy.model.Hero;
-import swingy.model.HeroClass;
 import swingy.view.SelectHeroView;
-import swingy.view.console.ConsoleBattlePage;
 import swingy.view.console.SelectHeroConsolePage;
-import swingy.view.swing.SwingBattlePage;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -35,8 +30,6 @@ public class Game {
 			selectMode(selectHeroView);
 //			Config.setMode(GameMode.SWING);
 			BattlegroundController battleground = new BattlegroundController();
-			if (Config.getMode().equals(GameMode.CONSOLE))
-				initConsole();
 			while (hero.getCurrentLvl() <= MAX_LVL) {//после каждого цикла открывается новая карта
 				battleground.generateMap(hero);
 				GameStatus result = battleground.playGame();
@@ -47,16 +40,6 @@ public class Game {
 			}
 		} catch (IOException | InterruptedException | GenerateMapException ex) {
 			ex.printStackTrace();
-		}
-	}
-
-	private static void initConsole() {
-		try {
-			String[] cmd = {"/bin/sh", "-c", "stty raw </dev/tty"};
-			Runtime.getRuntime().exec(cmd).waitFor();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			System.exit(1);
 		}
 	}
 

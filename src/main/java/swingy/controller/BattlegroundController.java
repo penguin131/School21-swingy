@@ -30,6 +30,14 @@ public class BattlegroundController {
 	private GameStatus status;
 	private Hero.HeroBuilder heroBuilder;
 
+	public GameStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(GameStatus status) {
+		this.status = status;
+	}
+
 	/**
 	 * Генерация карты, в зависимости от уровня игрока
 	 */
@@ -72,7 +80,7 @@ public class BattlegroundController {
 		if (Config.getMode().equals(GameMode.SWING)) {
 			view = new SwingBattlePage(characters, mapSize, this);
 		} else {
-			view = new ConsoleBattlePage();
+			view = new ConsoleBattlePage(characters, mapSize, this);
 		}
 		view.printMap();
 		while (status.equals(GameStatus.PLAY)) {
@@ -148,7 +156,8 @@ public class BattlegroundController {
 				}
 			}
 		}
-		view.printMap();
+		if (view instanceof SwingBattlePage)
+			view.printMap();
 	}
 
 	private void replaceCoordinates(Coordinate newCoordinates) {
