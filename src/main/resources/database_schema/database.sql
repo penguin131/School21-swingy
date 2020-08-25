@@ -12,17 +12,22 @@ create unique index T_CHARACTER_CLASS_CHARACTER_CLASS_ID_UINDEX
 create table T_CHARACTER
 (
     CHARACTER_ID    INT auto_increment,
-    NAME            VARCHAR(30) not null,
-    CHARACTER_CLASS INT         not null,
+    NAME            VARCHAR(30)   not null,
+    CHARACTER_CLASS INT           not null,
     ATTACK          INT,
     DEFENCE         INT,
     HITPOINT        INT,
+    LEVEL           INT default 1 not null,
+    EXP             INT default 0,
     constraint T_CHARACTER_T_CHARACTER_CLASS_CHARACTER_CLASS_ID_FK
         foreign key (CHARACTER_CLASS) references T_CHARACTER_CLASS (CHARACTER_CLASS_ID)
 );
 
 create unique index T_CHARACTER_CHARACTER_ID_UINDEX
     on T_CHARACTER (CHARACTER_ID);
+
+create unique index T_CHARACTER_NAME_UINDEX
+    on T_CHARACTER (NAME);
 
 create table T_ARTIFACT_TYPE
 (

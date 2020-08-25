@@ -18,24 +18,24 @@ public class HeroTest {
 		Hero.HeroBuilder builder = new Hero.HeroBuilder(character);
 		assertEquals(character.getArtifacts().size(), 0);
 		builder.takeArtifact(new Artifact(ArtifactType.ARMOR, 5));
-		assertEquals(character.getDefence(), 5);
-		assertEquals(character.getAttack(), 0);
+		assertEquals(character.getDefence(), 6);
+		assertEquals(character.getAttack(), 1);
 		assertEquals(character.getHitPoint(), 10);
 		builder.takeArtifact(new Artifact(ArtifactType.ARMOR, 3));
-		assertEquals(character.getDefence(), 3);
-		assertEquals(character.getAttack(), 0);
+		assertEquals(character.getDefence(), 4);
+		assertEquals(character.getAttack(), 1);
 		assertEquals(character.getHitPoint(), 10);
 		builder.takeArtifact(new Artifact(ArtifactType.WEAPON, 3));
-		assertEquals(character.getDefence(), 3);
-		assertEquals(character.getAttack(), 3);
+		assertEquals(character.getDefence(), 4);
+		assertEquals(character.getAttack(), 4);
 		assertEquals(character.getHitPoint(), 10);
 		builder.takeArtifact(new Artifact(ArtifactType.HELM, 333));
-		assertEquals(character.getDefence(), 3);
-		assertEquals(character.getAttack(), 3);
+		assertEquals(character.getDefence(), 4);
+		assertEquals(character.getAttack(), 4);
 		assertEquals(character.getHitPoint(), 343);
 		builder.takeArtifact(new Artifact(ArtifactType.HELM, 1));
-		assertEquals(character.getDefence(), 3);
-		assertEquals(character.getAttack(), 3);
+		assertEquals(character.getDefence(), 4);
+		assertEquals(character.getAttack(), 4);
 		assertEquals(character.getHitPoint(), 11);
 	}
 

@@ -5,9 +5,7 @@ public enum Button {
 	DOWN(83),
 	LEFT(65),
 	RIGHT(68),
-	ESC(27),
-	YES(1),
-	NO(1);
+	ESC(27);
 
 	private int code;
 
