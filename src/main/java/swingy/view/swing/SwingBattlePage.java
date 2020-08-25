@@ -29,7 +29,7 @@ public class SwingBattlePage extends JFrame implements BattleView {
 		super("Battleground");
 		this.characters = characters;
 		this.mapSize = mapSize;
-		this.setBounds(100, 100, 50 * mapSize + 6, 50 * mapSize + 26);
+		this.setBounds(100, 100, 50 * mapSize + 206, 50 * mapSize + 26);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		String userDir = System.getProperty("user.dir");
 		hero = resizeImage(new ImageIcon(userDir + "/target/classes/images/hero.png"));
@@ -67,6 +67,7 @@ public class SwingBattlePage extends JFrame implements BattleView {
 					map[i][j].setIcon(villain);
 				} else if (field instanceof Hero) {
 					map[i][j].setIcon(hero);
+					printHeroInfo((Hero) field);
 				}
 				this.add(map[i][j]);
 			}
@@ -84,5 +85,24 @@ public class SwingBattlePage extends JFrame implements BattleView {
 		Image image1 = image.getImage();
 		Image newImg = image1.getScaledInstance(45, 45,  java.awt.Image.SCALE_SMOOTH);
 		return new ImageIcon(newImg);
+	}
+
+	private void printHeroInfo(Hero hero) {
+		JLabel t1,t2, t3, t4, t5;
+		t1 = new JLabel("Hero: " + hero.getName());
+		t2 = new JLabel("lvl: " + hero.getCurrentLvl());
+		t3 = new JLabel("attack: " + hero.getAttack());
+		t4 = new JLabel("defence: " + hero.getDefence());
+		t5 = new JLabel("hitPoints: " + hero.getHitPoint());
+		t1.setBounds(50 * mapSize + 6, 6, 200,200);
+		t2.setBounds(50 * mapSize + 6, 26, 200,200);
+		t3.setBounds(50 * mapSize + 6, 46, 200,200);
+		t4.setBounds(50 * mapSize + 6, 66, 200,200);
+		t5.setBounds(50 * mapSize + 6, 86, 200,200);
+		this.add(t1);
+		this.add(t2);
+		this.add(t3);
+		this.add(t4);
+		this.add(t5);
 	}
 }

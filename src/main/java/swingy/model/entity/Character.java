@@ -2,6 +2,7 @@ package swingy.model.entity;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "T_CHARACTER", schema = "SWINGY")
@@ -23,9 +24,10 @@ public class Character {
 	private int hitPoint;
 	@Column(name = "LEVEL")
 	private int level;
-	@OneToMany(cascade = CascadeType.ALL,
-			orphanRemoval = true)
-	private List<Artifact> artifacts;
+	@Column(name = "EXP")
+	private int exp;
+	@OneToMany(cascade=CascadeType.ALL, orphanRemoval = true, fetch=FetchType.EAGER, mappedBy="character")
+	private Set<Artifact> artifacts;
 
 	public int getCharacterId() {
 		return characterId;
@@ -75,11 +77,11 @@ public class Character {
 		this.hitPoint = hitPoint;
 	}
 
-	public List<Artifact> getArtifacts() {
+	public Set<Artifact> getArtifacts() {
 		return artifacts;
 	}
 
-	public void setArtifacts(List<Artifact> artifacts) {
+	public void setArtifacts(Set<Artifact> artifacts) {
 		this.artifacts = artifacts;
 	}
 
@@ -89,6 +91,14 @@ public class Character {
 
 	public void setLevel(int level) {
 		this.level = level;
+	}
+
+	public int getExp() {
+		return exp;
+	}
+
+	public void setExp(int exp) {
+		this.exp = exp;
 	}
 
 	@Override
@@ -101,6 +111,7 @@ public class Character {
 				", defence: " + defence +
 				", hitPoint: " + hitPoint +
 				", level: " + level +
+				", exp: " + exp +
 				"}";
 	}
 }

@@ -35,4 +35,12 @@ public class ArtifactType {
 				", name: " + name +
 				"}";
 	}
+
+	public swingy.model.ArtifactType toBean() {
+		for (swingy.model.ArtifactType art : swingy.model.ArtifactType.values()) {
+			if (art.getName().equals(name))
+				return art;
+		}
+		return null;
+	}
 }

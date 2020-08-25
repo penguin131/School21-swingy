@@ -14,7 +14,7 @@ public class Artifact {
 	private ArtifactType artifactType;
 	@Column(name = "POWER")
 	private int power;
-	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CHARACTER", referencedColumnName = "CHARACTER_ID")
 	private Character character;
 

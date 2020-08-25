@@ -1,10 +1,11 @@
 package swingy;
 
+import swingy.Exceptions.GenerateMapException;
 import swingy.controller.BattlegroundController;
 import swingy.controller.SelectHeroController;
 import swingy.helper.Config;
 import swingy.helper.GameMode;
-import swingy.helper.GameResult;
+import swingy.helper.GameStatus;
 import swingy.model.Hero;
 import swingy.model.HeroClass;
 import swingy.view.SelectHeroView;
@@ -29,40 +30,25 @@ public class Game {
 
 		selectHeroView = new SelectHeroConsolePage();
 		try {
-//			hero = new SelectHeroController(bufferedReader, selectHeroView).selectHero();
-			hero = new Hero(HeroClass.MAN);
-//			selectMode(selectHeroView);
-			Config.setMode(GameMode.SWING);
+			hero = new SelectHeroController(bufferedReader, selectHeroView).selectHero();
+//			hero = new Hero(HeroClass.MAN);
+			selectMode(selectHeroView);
+//			Config.setMode(GameMode.SWING);
 			BattlegroundController battleground = new BattlegroundController();
 			if (Config.getMode().equals(GameMode.CONSOLE))
 				initConsole();
 			while (hero.getCurrentLvl() <= MAX_LVL) {//после каждого цикла открывается новая карта
 				battleground.generateMap(hero);
-				GameResult result = battleground.playGame();
-				if (result.equals(GameResult.LVL_UP))
-					hero.increaseLvl();
-				if (result.equals(GameResult.LOSE)) {
+				GameStatus result = battleground.playGame();
+				if (result.equals(GameStatus.LOOSE)) {
 					System.out.println("YOU LOOSE");
 					System.exit(0);
 				}
 			}
-		} catch (IOException | InterruptedException ex) {
+		} catch (IOException | InterruptedException | GenerateMapException ex) {
 			ex.printStackTrace();
 		}
 	}
-
-	//пример с картинкой
-//	public static void main(String[] args) {
-//		JFrame frame = new JFrame("Demo Frame");
-//		JLabel label = new JLabel();
-//		label.setLocation(150, 150);
-//		label.setSize(100, 100);
-//		label.setIcon(resizeImage(new ImageIcon("/Users/bootcamp/Desktop/swingy/target/classes/images/hero.jpg")));
-//		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//		frame.add(label);
-//		frame.setSize(500, 300);
-//		frame.setVisible(true);
-//	}
 
 	private static void initConsole() {
 		try {
@@ -92,11 +78,5 @@ public class Game {
 			ex.printStackTrace();
 			System.exit(1);
 		}
-	}
-
-	private static ImageIcon resizeImage(ImageIcon image) {
-		Image image1 = image.getImage(); // transform it
-		Image newImg = image1.getScaledInstance(45, 45,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-		return new ImageIcon(newImg);  // transform it back
 	}
 }

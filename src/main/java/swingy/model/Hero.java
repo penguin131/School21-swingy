@@ -8,6 +8,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class Hero extends GameCharacter {
@@ -18,6 +19,8 @@ public class Hero extends GameCharacter {
 	private int currentLvl;
 	@NotNull(message = "Hero class can not be null")
 	private HeroClass heroClass;
+	private int exp;
+	protected Map<ArtifactType, Artifact> artifacts;
 
 	public Hero(HeroClass heroClass) {
 		this.heroClass = heroClass;
@@ -25,25 +28,57 @@ public class Hero extends GameCharacter {
 		this.hitPoint = 10;
 		this.attack = 1;
 		this.defence = 1;
-		this.hitPoint = 1;
 		this.artifacts = new HashMap<>();
+		this.exp = 0;
 	}
 
 	public Hero() {
 		this.currentLvl = 1;
 		this.hitPoint = 10;
-		this.attack = 0;
-		this.defence = 0;
+		this.attack = 1;
+		this.defence = 1;
 		this.artifacts = new HashMap<>();
 		this.heroClass = null;
+		this.exp = 0;
+	}
+
+	public int getAttack() {
+		int result = super.getAttack();
+		if (artifacts != null && artifacts.get(ArtifactType.WEAPON) != null) {
+			result += artifacts.get(ArtifactType.WEAPON).getPower();
+		}
+		return result;
+	}
+
+	public int getDefence() {
+		int result = super.getDefence();
+		if (artifacts != null && artifacts.get(ArtifactType.ARMOR) != null) {
+			result += artifacts.get(ArtifactType.ARMOR).getPower();
+		}
+		return result;
+	}
+
+	public int getHitPoint() {
+		int result = super.getHitPoint();
+		if (artifacts != null && artifacts.get(ArtifactType.HELM) != null) {
+			result += artifacts.get(ArtifactType.HELM).getPower();
+		}
+		return result;
 	}
 
 	public int getCurrentLvl() {
 		return currentLvl;
 	}
 
-	public void increaseLvl() {
-		currentLvl++;
+	public void updateExp() {
+		exp += 500;
+		if (currentLvl * 1000 + (currentLvl - 1) * (currentLvl - 1) * 450 <= exp) {
+			currentLvl++;
+		}
+	}
+
+	public Map<ArtifactType, Artifact> getArtifacts() {
+		return artifacts;
 	}
 
 	public HeroClass getHeroClass() {
@@ -54,43 +89,31 @@ public class Hero extends GameCharacter {
 		return name;
 	}
 
+	public int getExp() {
+		return exp;
+	}
+
 	public static class HeroBuilder {
 		private Hero character;
 		ValidatorFactory factory;
 		Validator validator;
 
-		private void dropArtifact(Artifact artifact) {
-			switch (artifact.getType()) {
-				case HELM:
-					this.character.hitPoint -= artifact.getPower();
-					break;
-				case ARMOR:
-					this.character.defence -= artifact.getPower();
-					break;
-				case WEAPON:
-					this.character.attack -= artifact.getPower();
-					break;
-			}
-			character.artifacts.remove(artifact.getType());
+		public void setCharacter(Hero character) {
+			this.character = character;
+		}
+
+		public void setArtifacts(Map<ArtifactType, Artifact> artifacts) {
+			this.character.artifacts = artifacts;
 		}
 
 		public void takeArtifact(Artifact artifact) {
+			if (artifact == null)
+				return;
 			Artifact oldArtifact = character.getArtifacts().get(artifact.getType());
 			if (oldArtifact != null) {
-				dropArtifact(oldArtifact);
+				character.getArtifacts().remove(artifact.getType());
 			}
 			character.artifacts.put(artifact.getType(), artifact);
-			switch (artifact.getType()) {
-				case HELM:
-					this.character.hitPoint += artifact.getPower();
-					break;
-				case ARMOR:
-					this.character.defence += artifact.getPower();
-					break;
-				case WEAPON:
-					this.character.attack += artifact.getPower();
-					break;
-			}
 		}
 
 		public void setName(String name) {
@@ -115,6 +138,10 @@ public class Hero extends GameCharacter {
 
 		public void setHitPoint(int hitPoint) {
 			character.hitPoint = hitPoint;
+		}
+
+		public void setExp(int exp) {
+			character.exp = exp;
 		}
 
 		public HeroBuilder(Hero character) {
