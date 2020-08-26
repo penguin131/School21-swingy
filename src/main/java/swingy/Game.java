@@ -26,11 +26,9 @@ public class Game {
 		selectHeroView = new SelectHeroConsolePage();
 		try {
 			hero = new SelectHeroController(bufferedReader, selectHeroView).selectHero();
-//			hero = new Hero(HeroClass.MAN);
 			selectMode(selectHeroView);
-//			Config.setMode(GameMode.SWING);
 			BattlegroundController battleground = new BattlegroundController();
-			while (hero.getCurrentLvl() <= MAX_LVL) {//после каждого цикла открывается новая карта
+			while (hero.getCurrentLvl() <= MAX_LVL) {
 				battleground.generateMap(hero);
 				GameStatus result = battleground.playGame();
 				if (result.equals(GameStatus.LOOSE)) {
@@ -38,6 +36,7 @@ public class Game {
 					System.exit(0);
 				}
 			}
+			System.out.println("YOU WIN!");
 		} catch (IOException | InterruptedException | GenerateMapException ex) {
 			ex.printStackTrace();
 		}

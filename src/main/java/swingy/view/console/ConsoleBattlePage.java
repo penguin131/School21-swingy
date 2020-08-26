@@ -20,7 +20,7 @@ public class ConsoleBattlePage extends ConsolePage implements BattleView {
 	private Map<Coordinate, GameCharacter> characters;
 	private int mapSize;
 	private BattlegroundController controller;
-	private BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
+	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
 	public ConsoleBattlePage(Map<Coordinate, GameCharacter> characters, int mapSize, BattlegroundController controller) {
 		this.characters = characters;
@@ -38,7 +38,7 @@ public class ConsoleBattlePage extends ConsolePage implements BattleView {
 	public boolean choice() throws IOException {
 		System.out.println("Do you want to fight?");
 		String line;
-		while (!isTrueFalse(line = buffer.readLine())) {
+		while (!isTrueFalse(line = reader.readLine())) {
 			System.out.println("Write true or false");
 		}
 		if (line.equals("true"))
@@ -74,7 +74,7 @@ public class ConsoleBattlePage extends ConsolePage implements BattleView {
 				//read commands
 				try {
 					Button button;
-					while ((button = Button.getButton(buffer.readLine())) == null) {
+					while ((button = Button.getButton(reader.readLine())) == null) {
 						System.out.println("please write w/s/a/d for movie or exit for exit.");
 					}
 					controller.pressButton(button);

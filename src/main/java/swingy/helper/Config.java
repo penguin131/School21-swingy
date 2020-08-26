@@ -24,7 +24,7 @@ public class Config {
 			InputStream input1 = new FileInputStream(configFile);
 			config.load(input1);
 			villainsCount = Integer.parseInt(config.getProperty("villain.amount"));
-			if (villainsCount == 0)
+			if (villainsCount <= 0)
 				throw new PropertiesException("No villains!");
 			if (villainsCount >= 50)
 				throw new PropertiesException("To much villains!");

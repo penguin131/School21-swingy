@@ -4,7 +4,11 @@ import swingy.Exceptions.GenerateMapException;
 import swingy.helper.Config;
 import swingy.helper.GameMode;
 import swingy.helper.GameStatus;
-import swingy.model.*;
+import swingy.helper.GeneratorFactory;
+import swingy.model.Coordinate;
+import swingy.model.GameCharacter;
+import swingy.model.Hero;
+import swingy.model.Villain;
 import swingy.model.dao.DAOFactory;
 import swingy.view.BattleView;
 import swingy.view.console.ConsoleBattlePage;
@@ -14,9 +18,9 @@ import swingy.view.utils.Button;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import static swingy.view.utils.Button.*;
+import static swingy.helper.GeneratorFactory.*;
 
 public class BattlegroundController {
 
@@ -24,18 +28,12 @@ public class BattlegroundController {
 	private Coordinate heroCoordinates;
 	private int mapSize;
 	private static int VILLAIN_AMOUNT;
-	private Random random;
-	private static final int MAX_ITERATIONS = 100;
 	private BattleView view;
 	private GameStatus status;
 	private Hero.HeroBuilder heroBuilder;
 
 	public GameStatus getStatus() {
 		return status;
-	}
-
-	public void setStatus(GameStatus status) {
-		this.status = status;
 	}
 
 	/**
@@ -49,28 +47,9 @@ public class BattlegroundController {
 		heroCoordinates = new Coordinate(mapSize / 2, mapSize / 2);
 		characters.put(heroCoordinates, hero);
 		for (int i = 0; i < VILLAIN_AMOUNT; i++) {
-			characters.put(generateNewCoordinate(mapSize), generateVillain(hero.getCurrentLvl()));
+			characters.put(generateNewCoordinate(mapSize, characters),
+					generateVillain(hero.getCurrentLvl()));
 		}
-	}
-
-	private Coordinate generateNewCoordinate(int mapSize) throws GenerateMapException {
-		Coordinate result = new Coordinate();
-		int i = 0;
-		while (i < MAX_ITERATIONS) {
-			result.setX(random.nextInt(mapSize));
-			result.setY(random.nextInt(mapSize));
-			if (!characters.containsKey(result))
-				break;
-			i++;
-		}
-		if (i == MAX_ITERATIONS) {
-			throw new GenerateMapException("To many iterations.");
-		}
-		return result;
-	}
-
-	private Villain generateVillain(int heroLvl) {
-		return new Villain(heroLvl / 2, heroLvl / 4, heroLvl * 2);
 	}
 
 	/**
@@ -202,7 +181,6 @@ public class BattlegroundController {
 
 	public BattlegroundController() {
 		VILLAIN_AMOUNT = Integer.parseInt(Config.getConfig().getProperty("villain.amount"));
-		random = new Random();
 		heroBuilder = new Hero.HeroBuilder(null);
 	}
 }
