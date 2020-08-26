@@ -9,10 +9,13 @@ import swingy.view.BattleView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Random;
 
 import static swingy.view.utils.Button.getButton;
 
@@ -49,7 +52,7 @@ public class SwingBattlePage extends JFrame implements BattleView {
 			public void keyReleased(KeyEvent e) {
 				try {
 					controller.pressButton(getButton(e.getKeyCode()));
-				} catch (IOException ex) {
+				} catch (IOException | InterruptedException ex) {
 					ex.printStackTrace();
 				}
 			}
@@ -73,6 +76,17 @@ public class SwingBattlePage extends JFrame implements BattleView {
 			}
 		}
 		this.setVisible(true);
+	}
+
+	@Override
+	public boolean choice() {
+		if (JOptionPane.showConfirmDialog(this,
+				"Do you want to fight?",
+				"Choice",
+				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+			return true;
+		else
+			return new Random().nextBoolean();
 	}
 
 	@Override

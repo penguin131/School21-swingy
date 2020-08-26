@@ -43,23 +43,18 @@ public class Game {
 		}
 	}
 
-	private static void selectMode(SelectHeroView view) {
-		try {
-			String line;
-			while (true) {
-				view.question("Please select game mode(swing or console):");
-				line = bufferedReader.readLine();
-				if ("swing".equals(line)) {
-					Config.setMode(GameMode.SWING);
-					break;
-				} else if ("console".equals(line)) {
-					Config.setMode(GameMode.CONSOLE);
-					break;
-				}
+	private static void selectMode(SelectHeroView view) throws IOException {
+		String line;
+		while (true) {
+			view.question("Please select game mode(swing or console):");
+			line = bufferedReader.readLine();
+			if ("swing".equals(line)) {
+				Config.setMode(GameMode.SWING);
+				break;
+			} else if ("console".equals(line)) {
+				Config.setMode(GameMode.CONSOLE);
+				break;
 			}
-		} catch (IOException ex) {
-			ex.printStackTrace();
-			System.exit(1);
 		}
 	}
 }

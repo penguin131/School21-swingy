@@ -13,12 +13,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Map;
+import java.util.Random;
 
 public class ConsoleBattlePage extends ConsolePage implements BattleView {
 
 	private Map<Coordinate, GameCharacter> characters;
 	private int mapSize;
 	private BattlegroundController controller;
+	private BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
 
 	public ConsoleBattlePage(Map<Coordinate, GameCharacter> characters, int mapSize, BattlegroundController controller) {
 		this.characters = characters;
@@ -30,6 +32,23 @@ public class ConsoleBattlePage extends ConsolePage implements BattleView {
 	public void printMap() {
 		PrintThread printThread = new PrintThread();
 		printThread.start();
+	}
+
+	@Override
+	public boolean choice() throws IOException {
+		System.out.println("Do you want to fight?");
+		String line;
+		while (!isTrueFalse(line = buffer.readLine())) {
+			System.out.println("Write true or false");
+		}
+		if (line.equals("true"))
+			return true;
+		else
+			return new Random().nextBoolean();
+	}
+
+	private boolean isTrueFalse(String line) {
+		return line.equals("true") || line.equals("false");
 	}
 
 	private class PrintThread extends Thread {
@@ -53,14 +72,13 @@ public class ConsoleBattlePage extends ConsolePage implements BattleView {
 					System.out.println();
 				}
 				//read commands
-				BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
 				try {
 					Button button;
 					while ((button = Button.getButton(buffer.readLine())) == null) {
 						System.out.println("please write w/s/a/d for movie or exit for exit.");
 					}
 					controller.pressButton(button);
-				} catch (IOException ex) {
+				} catch (IOException | InterruptedException ex) {
 					ex.printStackTrace();
 				}
 			}

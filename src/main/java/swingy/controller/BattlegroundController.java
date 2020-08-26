@@ -93,7 +93,7 @@ public class BattlegroundController {
 			return GameStatus.WIN;
 	}
 
-	public void pressButton(Button button) throws IOException {
+	public void pressButton(Button button) throws IOException, InterruptedException {
 		if (button == null)
 			return;
 		if (Button.isStep(button.getCode())) {
@@ -106,7 +106,7 @@ public class BattlegroundController {
 		}
 	}
 
-	private void getStep(Button button) throws IOException {
+	private void getStep(Button button) throws IOException, InterruptedException {
 		Coordinate coordinate;
 		if (button.equals(LEFT)) {
 			if (heroCoordinates.getX() == 0) {
@@ -167,7 +167,7 @@ public class BattlegroundController {
 		characters.put(heroCoordinates, character);
 	}
 
-	private void battle(Coordinate villainCoordinates) {
+	private void battle(Coordinate villainCoordinates) throws IOException, InterruptedException {
 		GameCharacter enemy = characters.get(villainCoordinates);
 		if (!(enemy instanceof Villain))
 			return;
@@ -190,11 +190,13 @@ public class BattlegroundController {
 		if (heroHp <= 0) {
 			status = GameStatus.LOOSE;
 		} else {
-			characters.remove(villainCoordinates);
-			replaceCoordinates(villainCoordinates);
-			hero.updateExp();
-			heroBuilder.setCharacter(hero);
-			heroBuilder.takeArtifact(villain.generateArtifact(hero.getCurrentLvl()));
+			if (view.choice()) {
+				characters.remove(villainCoordinates);
+				replaceCoordinates(villainCoordinates);
+				hero.updateExp();
+				heroBuilder.setCharacter(hero);
+				heroBuilder.takeArtifact(villain.generateArtifact(hero.getCurrentLvl()));
+			}
 		}
 	}
 
