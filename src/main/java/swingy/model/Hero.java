@@ -98,6 +98,10 @@ public class Hero extends GameCharacter {
 		ValidatorFactory factory;
 		Validator validator;
 
+		public Hero getCharacter() {
+			return character;
+		}
+
 		public void setCharacter(Hero character) {
 			this.character = character;
 		}

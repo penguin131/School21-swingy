@@ -2,12 +2,13 @@ package swingy.view;
 
 import swingy.model.Hero;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface SelectHeroView extends View {
-	void welcome();
+	void welcome() throws IOException;
 	void showAllHeroes(List<Hero> heroes);
-	void clearConsole();
-	void question(String text);
-	void warning(String text);
+	boolean booleanQuestion(String text, String errorText) throws IOException;
+	Hero selectHero(List<Hero> heroes) throws IOException;
+	Hero createHero() throws IOException;
 }
