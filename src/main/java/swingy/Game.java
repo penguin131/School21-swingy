@@ -7,8 +7,6 @@ import swingy.helper.Config;
 import swingy.helper.GameMode;
 import swingy.helper.GameStatus;
 import swingy.model.Hero;
-import swingy.view.SelectHeroView;
-import swingy.view.console.SelectHeroConsolePage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,17 +14,20 @@ import java.io.InputStreamReader;
 
 public class Game {
 	private static final int MAX_LVL = Integer.parseInt(Config.getConfig().getProperty("maxLvl"));
-	private static BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
 	public static void main(String[] args) {
-		Config.setMode(GameMode.CONSOLE);
-		SelectHeroView selectHeroView;
+		if (args.length != 1 || (!args[0].equals("console") && !args[0].equals("swing"))) {
+			System.out.println("Please select game mode(swing or console)");
+			System.exit(0);
+		}
+		if (args[0].equals("console")) {
+			Config.setMode(GameMode.CONSOLE);
+		} else {
+			Config.setMode(GameMode.SWING);
+		}
 		Hero hero;
-
-		selectHeroView = new SelectHeroConsolePage();
 		try {
-			hero = new SelectHeroController(bufferedReader, selectHeroView).selectHero();
-			selectMode(selectHeroView);
+			hero = new SelectHeroController().selectHero();
 			BattlegroundController battleground = new BattlegroundController();
 			while (hero.getCurrentLvl() <= MAX_LVL) {
 				battleground.generateMap(hero);
@@ -39,21 +40,6 @@ public class Game {
 			System.out.println("YOU WIN!");
 		} catch (IOException | InterruptedException | GenerateMapException ex) {
 			ex.printStackTrace();
-		}
-	}
-
-	private static void selectMode(SelectHeroView view) throws IOException {
-		String line;
-		while (true) {
-			view.question("Please select game mode(swing or console):");
-			line = bufferedReader.readLine();
-			if ("swing".equals(line)) {
-				Config.setMode(GameMode.SWING);
-				break;
-			} else if ("console".equals(line)) {
-				Config.setMode(GameMode.CONSOLE);
-				break;
-			}
 		}
 	}
 }

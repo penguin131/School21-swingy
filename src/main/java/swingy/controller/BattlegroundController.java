@@ -4,7 +4,6 @@ import swingy.Exceptions.GenerateMapException;
 import swingy.helper.Config;
 import swingy.helper.GameMode;
 import swingy.helper.GameStatus;
-import swingy.helper.GeneratorFactory;
 import swingy.model.Coordinate;
 import swingy.model.GameCharacter;
 import swingy.model.Hero;
@@ -19,8 +18,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static swingy.helper.GeneratorFactory.generateNewCoordinate;
+import static swingy.helper.GeneratorFactory.generateVillain;
 import static swingy.view.utils.Button.*;
-import static swingy.helper.GeneratorFactory.*;
 
 public class BattlegroundController {
 

@@ -1,53 +1,59 @@
 package swingy.controller;
 
 import swingy.Exceptions.ParseException;
+import swingy.helper.Config;
+import swingy.helper.GameMode;
 import swingy.model.Hero;
 import swingy.model.HeroClass;
 import swingy.model.dao.DAOFactory;
 import swingy.view.SelectHeroView;
+import swingy.view.console.SelectHeroConsolePage;
+import swingy.view.swing.SelectHeroSwingPage;
 
 import javax.validation.ConstraintViolation;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Set;
 
 public class SelectHeroController {
 	private List<Hero> heroes;
-	private BufferedReader buffer;
+	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	private SelectHeroView view;
 
 	public Hero selectHero() throws IOException {
 		String line;
 		view.clearConsole();
 		view.welcome();
-		buffer.readLine();
+		reader.readLine();
 		Hero hero;
 		heroes = DAOFactory.getHeroDAO().getAll();
 		view.clearConsole();
 		if (heroes != null && heroes.size() > 0) {
 			view.question("You can choose old character. Do it?(y/n)");
 			while (true) {
-				line = buffer.readLine();
+				line = reader.readLine();
 				if (!line.equals("y") && !line.equals("n")) {
 					view.warning("Please write y or n!");
-				} else
+				} else {
 					break;
+				}
 			}
-			if ("y".equals(line))
+			if ("y".equals(line)) {
 				hero = selectHeroFromBase();
-			else
+			} else {
 				hero = createHero();
+			}
 		} else
 			hero = createHero();
 		view.clearConsole();
 		return hero;
 	}
 
-	public SelectHeroController(BufferedReader buffer, SelectHeroView view) {
+	public SelectHeroController() {
 		this.heroes = null;
-		this.buffer = buffer;
-		this.view = view;
+		this.view = Config.getMode().equals(GameMode.CONSOLE) ? new SelectHeroConsolePage() : new SelectHeroSwingPage();
 	}
 
 	private Hero selectHeroFromBase() throws IOException {
@@ -55,7 +61,7 @@ public class SelectHeroController {
 		view.showAllHeroes(heroes);
 		String line;
 		Hero result;
-		while ((result = findHeroForName(line = buffer.readLine())) == null) {
+		while ((result = findHeroForName(line = reader.readLine())) == null) {
 			view.warning(String.format("Name %s does not exists! Please write correct name.", line));
 		}
 		return result;
@@ -78,12 +84,12 @@ public class SelectHeroController {
 		while (true) {
 			String parseError = null;
 			view.question("Please write hero Name!:");
-			while (DAOFactory.getHeroDAO().getForName(line = buffer.readLine()) != null) {
+			while (DAOFactory.getHeroDAO().getForName(line = reader.readLine()) != null) {
 				view.warning("This name already exist!");
 			}
 			builder.setName(line);
 			view.question("Please write hero class!(1(MAN) or 2(WOMAN)):");
-			line = buffer.readLine();
+			line = reader.readLine();
 			try {
 				int code = Integer.parseInt(line);
 				if (!HeroClass.containsCode(code))
