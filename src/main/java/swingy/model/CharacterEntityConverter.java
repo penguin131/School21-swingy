@@ -46,14 +46,14 @@ public class CharacterEntityConverter {
 	}
 
 	public static Hero entityToHero(Character character) {
-		Hero hero = new Hero(HeroClass.getClassForId(character.getCharacterClass().getCharacterClassId()));
-		Hero.HeroBuilder builder = new Hero.HeroBuilder(hero);
-		builder.setName(character.getName());
-		builder.setLevel(character.getLevel());
-		builder.setAttack(character.getAttack());
-		builder.setDefence(character.getDefence());
-		builder.setHitPoint(character.getHitPoint());
-		builder.setExp(character.getExp());
+		Hero.HeroBuilder builder = new Hero.HeroBuilder(
+				new Hero(HeroClass.getClassForId(character.getCharacterClass().getCharacterClassId())));
+		builder.setName(character.getName()).
+				setLevel(character.getLevel()).
+				setAttack(character.getAttack()).
+				setDefence(character.getDefence()).
+				setHitPoint(character.getHitPoint()).
+				setExp(character.getExp());
 		//artifacts
 		if (character.getArtifacts() != null) {
 			Map<ArtifactType, Artifact> artifactMap = new HashMap<>();
@@ -63,6 +63,6 @@ public class CharacterEntityConverter {
 			}
 			builder.setArtifacts(artifactMap);
 		}
-		return hero;
+		return builder.getCharacter();
 	}
 }

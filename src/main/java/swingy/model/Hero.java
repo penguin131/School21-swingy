@@ -102,50 +102,60 @@ public class Hero extends GameCharacter {
 			return character;
 		}
 
-		public void setCharacter(Hero character) {
+		public HeroBuilder setCharacter(Hero character) {
 			this.character = character;
+			return this;
 		}
 
-		public void setArtifacts(Map<ArtifactType, Artifact> artifacts) {
+		public HeroBuilder setArtifacts(Map<ArtifactType, Artifact> artifacts) {
 			this.character.artifacts = artifacts;
+			return this;
 		}
 
-		public void takeArtifact(Artifact artifact) {
-			if (artifact == null)
-				return;
-			Artifact oldArtifact = character.getArtifacts().get(artifact.getType());
-			if (oldArtifact != null) {
-				character.getArtifacts().remove(artifact.getType());
+		public HeroBuilder takeArtifact(Artifact artifact) {
+			if (artifact != null) {
+				Artifact oldArtifact = character.getArtifacts().get(artifact.getType());
+				if (oldArtifact != null) {
+					character.getArtifacts().remove(artifact.getType());
+				}
+				character.artifacts.put(artifact.getType(), artifact);
 			}
-			character.artifacts.put(artifact.getType(), artifact);
+			return this;
 		}
 
-		public void setName(String name) {
+		public HeroBuilder setName(String name) {
 			character.name = name;
+			return this;
 		}
 
-		public void setHeroClass(HeroClass heroClass) {
+		public HeroBuilder setHeroClass(HeroClass heroClass) {
 			character.heroClass = heroClass;
+			return this;
 		}
 
-		public void setLevel(int currentLvl) {
+		public HeroBuilder setLevel(int currentLvl) {
 			character.currentLvl = currentLvl;
+			return this;
 		}
 
-		public void setAttack(int attack) {
+		public HeroBuilder setAttack(int attack) {
 			character.attack = attack;
+			return this;
 		}
 
-		public void setDefence(int defence) {
+		public HeroBuilder setDefence(int defence) {
 			character.defence = defence;
+			return this;
 		}
 
-		public void setHitPoint(int hitPoint) {
+		public HeroBuilder setHitPoint(int hitPoint) {
 			character.hitPoint = hitPoint;
+			return this;
 		}
 
-		public void setExp(int exp) {
+		public HeroBuilder setExp(int exp) {
 			character.exp = exp;
+			return this;
 		}
 
 		public HeroBuilder(Hero character) {
