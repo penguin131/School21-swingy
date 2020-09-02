@@ -169,6 +169,10 @@ public class BattlegroundController {
 				characters.remove(villainCoordinates);
 				replaceCoordinates(villainCoordinates);
 				hero.updateExp();
+				if (hero.getCurrentLvl() > Config.getMaxLvl()) {
+					System.out.println("YOU WIN GAME!");
+					System.exit(0);
+				}
 				heroBuilder.setCharacter(hero);
 				Artifact artifact = generateArtifact(hero.getCurrentLvl());
 				if (artifact != null && view.artifactChoice(artifact)) {

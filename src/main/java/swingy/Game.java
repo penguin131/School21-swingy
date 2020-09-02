@@ -31,11 +31,11 @@ public class Game {
 				battleground.generateMap(hero);
 				GameStatus result = battleground.playGame();
 				if (result.equals(GameStatus.LOOSE)) {
-					System.out.println("YOU LOOSE");
+					System.out.println("YOU LOOSE GAME =(");
 					System.exit(0);
 				}
 			}
-			System.out.println("YOU WIN!");
+			System.out.println("YOU WIN GAME!");
 			System.exit(0);
 		} catch (IOException | InterruptedException | GenerateMapException ex) {
 			ex.printStackTrace();
