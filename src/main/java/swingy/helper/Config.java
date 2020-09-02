@@ -20,7 +20,7 @@ public class Config {
 
 	static {
 		try {
-			File configFile = new File("target/classes/application.properties");
+			File configFile = findConfigFile();
 			InputStream input1 = new FileInputStream(configFile);
 			config.load(input1);
 			villainsCount = Integer.parseInt(config.getProperty("villain.amount"));
@@ -34,6 +34,15 @@ public class Config {
 		} catch (IOException | PropertiesException ex) {
 			ex.printStackTrace();
 			System.exit(1);
+		}
+	}
+
+	private static File findConfigFile() {
+		String dir = System.getProperty("user.dir");
+		if ("target".equals(dir.substring(dir.lastIndexOf('/') + 1))) {
+			return new File("classes/application.properties");
+		} else {
+			return new File("target/classes/application.properties");
 		}
 	}
 
