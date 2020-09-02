@@ -80,7 +80,7 @@ public class SelectHeroConsolePage extends ConsolePage implements SelectHeroView
 			boolean isWoman = booleanQuestion("Do you want to play as a woman(y) or a man(n)?", "Please write y or n!");
 			builder.setHeroClass(isWoman ? HeroClass.WOMAN : HeroClass.MAN);
 
-			List<String> errors = controller.validate(builder);
+			List<String> errors = controller.validateHero(builder);
 			if (errors == null || errors.size() == 0) {
 				break;
 			}

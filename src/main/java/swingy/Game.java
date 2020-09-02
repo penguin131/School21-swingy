@@ -36,6 +36,7 @@ public class Game {
 				}
 			}
 			System.out.println("YOU WIN!");
+			System.exit(0);
 		} catch (IOException | InterruptedException | GenerateMapException ex) {
 			ex.printStackTrace();
 		}

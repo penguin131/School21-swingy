@@ -41,7 +41,7 @@ public class SelectHeroController {
 		this.view = Config.getMode().equals(GameMode.CONSOLE) ? new SelectHeroConsolePage(this) : new SelectHeroSwingPage(this);
 	}
 
-	public List<String> validate(Hero.HeroBuilder builder) {
+	public List<String> validateHero(Hero.HeroBuilder builder) {
 		ArrayList<String> result = new ArrayList<>();
 		if (DAOFactory.getHeroDAO().getForName(builder.getCharacter().getName()) != null) {
 			result.add("This name already exist!");

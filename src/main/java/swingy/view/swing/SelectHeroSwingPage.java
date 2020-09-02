@@ -97,7 +97,7 @@ public class SelectHeroSwingPage  extends JFrame implements SelectHeroView {
 					builder.setHeroClass(HeroClass.WOMAN);
 				}
 				builder.setName(name.getText());
-				List<String> errors = controller.validate(builder);
+				List<String> errors = controller.validateHero(builder);
 				if (errors == null || errors.size() == 0) {
 					isWait[0] = false;
 				} else {
