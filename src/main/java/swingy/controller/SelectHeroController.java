@@ -17,10 +17,10 @@ public class SelectHeroController {
 	private List<Hero> heroes;
 	private SelectHeroView view;
 
-	public Hero selectHero() throws IOException {
+	public Hero selectHero() throws IOException, InterruptedException {
+		heroes = DAOFactory.getHeroDAO().getAll();
 		view.welcome();
 		Hero hero;
-		heroes = DAOFactory.getHeroDAO().getAll();
 		if (heroes != null && heroes.size() > 0) {
 			if (view.booleanQuestion("You can choose old character. Do it?(y/n)", "Please write y or n")) {
 				view.showAllHeroes(heroes);

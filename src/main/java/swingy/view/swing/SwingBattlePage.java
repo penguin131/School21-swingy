@@ -1,10 +1,7 @@
 package swingy.view.swing;
 
 import swingy.controller.BattlegroundController;
-import swingy.model.Coordinate;
-import swingy.model.GameCharacter;
-import swingy.model.Hero;
-import swingy.model.Villain;
+import swingy.model.*;
 import swingy.view.BattleView;
 
 import javax.swing.*;
@@ -26,7 +23,7 @@ public class SwingBattlePage extends JFrame implements BattleView {
 	private ImageIcon zero;
 	private JLabel[][] map;
 
-	public SwingBattlePage(Map<Coordinate, GameCharacter> characters, int mapSize, BattlegroundController controller) {
+	public SwingBattlePage(Map<Coordinate, GameCharacter> characters, int mapSize, final BattlegroundController controller) {
 		super("Battleground");
 		this.characters = characters;
 		this.mapSize = mapSize;
@@ -77,7 +74,7 @@ public class SwingBattlePage extends JFrame implements BattleView {
 	}
 
 	@Override
-	public boolean choice() {
+	public boolean fightChoice() {
 		if (JOptionPane.showConfirmDialog(this,
 				"Do you want to fight?",
 				"Choice",
@@ -85,6 +82,14 @@ public class SwingBattlePage extends JFrame implements BattleView {
 			return true;
 		else
 			return new Random().nextBoolean();
+	}
+
+	@Override
+	public boolean artifactChoice(Artifact artifact) {
+		return JOptionPane.showConfirmDialog(this,
+				"Take artifact " + artifact.getType().getName() + "(" + artifact.getPower() + ")?",
+				"Choice",
+				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
 	}
 
 	@Override

@@ -18,6 +18,7 @@ public class SelectHeroConsolePage extends ConsolePage implements SelectHeroView
 
 	@Override
 	public void welcome() throws IOException {
+		clearConsole();
 		System.out.println("Hello! Welcome to swingy game!\nPress enter to continue...");
 		reader.readLine();
 		clearConsole();

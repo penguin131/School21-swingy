@@ -2,10 +2,7 @@ package swingy.view.console;
 
 import swingy.controller.BattlegroundController;
 import swingy.helper.GameStatus;
-import swingy.model.Coordinate;
-import swingy.model.GameCharacter;
-import swingy.model.Hero;
-import swingy.model.Villain;
+import swingy.model.*;
 import swingy.view.BattleView;
 import swingy.view.utils.Button;
 
@@ -35,7 +32,7 @@ public class ConsoleBattlePage extends ConsolePage implements BattleView {
 	}
 
 	@Override
-	public boolean choice() throws IOException {
+	public boolean fightChoice() throws IOException {
 		System.out.println("Do you want to fight?");
 		String line;
 		while (!isTrueFalse(line = reader.readLine())) {
@@ -45,6 +42,16 @@ public class ConsoleBattlePage extends ConsolePage implements BattleView {
 			return true;
 		else
 			return new Random().nextBoolean();
+	}
+
+	@Override
+	public boolean artifactChoice(Artifact artifact) throws IOException {
+		System.out.println("Take artifact " + artifact.getType().getName() + "(" + artifact.getPower() + ")?");
+		String line;
+		while (!isTrueFalse(line = reader.readLine())) {
+			System.out.println("Write true or false");
+		}
+		return line.equals("true");
 	}
 
 	private boolean isTrueFalse(String line) {

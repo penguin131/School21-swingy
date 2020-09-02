@@ -8,9 +8,7 @@ import swingy.helper.GameMode;
 import swingy.helper.GameStatus;
 import swingy.model.Hero;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 public class Game {
 	private static final int MAX_LVL = Integer.parseInt(Config.getConfig().getProperty("maxLvl"));

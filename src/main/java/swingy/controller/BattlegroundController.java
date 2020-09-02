@@ -4,10 +4,7 @@ import swingy.Exceptions.GenerateMapException;
 import swingy.helper.Config;
 import swingy.helper.GameMode;
 import swingy.helper.GameStatus;
-import swingy.model.Coordinate;
-import swingy.model.GameCharacter;
-import swingy.model.Hero;
-import swingy.model.Villain;
+import swingy.model.*;
 import swingy.model.dao.DAOFactory;
 import swingy.view.BattleView;
 import swingy.view.console.ConsoleBattlePage;
@@ -18,8 +15,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static swingy.helper.GeneratorFactory.generateNewCoordinate;
-import static swingy.helper.GeneratorFactory.generateVillain;
+import static swingy.helper.GeneratorFactory.*;
 import static swingy.view.utils.Button.*;
 
 public class BattlegroundController {
@@ -169,12 +165,15 @@ public class BattlegroundController {
 		if (heroHp <= 0) {
 			status = GameStatus.LOOSE;
 		} else {
-			if (view.choice()) {
+			if (view.fightChoice()) {
 				characters.remove(villainCoordinates);
 				replaceCoordinates(villainCoordinates);
 				hero.updateExp();
 				heroBuilder.setCharacter(hero);
-				heroBuilder.takeArtifact(villain.generateArtifact(hero.getCurrentLvl()));
+				Artifact artifact = generateArtifact(hero.getCurrentLvl());
+				if (artifact != null && view.artifactChoice(artifact)) {
+					heroBuilder.takeArtifact(artifact);
+				}
 			}
 		}
 	}
