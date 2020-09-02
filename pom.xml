@@ -115,6 +115,7 @@
                             <mainClass>swingy.Game</mainClass>
                         </manifest>
                     </archive>
+                    <finalName>swingy</finalName>
                 </configuration>
             </plugin>
         </plugins>

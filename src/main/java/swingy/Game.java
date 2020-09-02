@@ -14,8 +14,8 @@ public class Game {
 	private static final int MAX_LVL = Integer.parseInt(Config.getConfig().getProperty("maxLvl"));
 
 	public static void main(String[] args) {
-		if (args.length != 1 || (!args[0].equals("console") && !args[0].equals("swing"))) {
-			System.out.println("Please select game mode(swing or console)");
+		if (args.length != 1 || (!args[0].equals("console") && !args[0].equals("gui"))) {
+			System.out.println("Please select game mode(gui or console)");
 			System.exit(0);
 		}
 		if (args[0].equals("console")) {
